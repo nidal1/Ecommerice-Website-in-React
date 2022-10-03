@@ -2,7 +2,9 @@ import React, { useState } from "react"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-
+import { productItems } from '../../features/cardSlice'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../features/cardSlice'
 const SampleNextArrow = (props) => {
   const { onClick } = props
   return (
@@ -23,8 +25,9 @@ const SamplePrevArrow = (props) => {
     </div>
   )
 }
-const FlashCard = ({ productItems, addToCart }) => {
+const FlashCard = () => {
   const [count, setCount] = useState(0)
+  const dispatch = useDispatch()
   const increment = () => {
     setCount(count + 1)
   }
@@ -41,9 +44,9 @@ const FlashCard = ({ productItems, addToCart }) => {
   return (
     <>
       <Slider {...settings}>
-        {productItems.map((productItems) => {
+        {productItems.map((productItems, i) => {
           return (
-            <div className='box'>
+            <div className='box' key={i}>
               <div className='product mtop'>
                 <div className='img'>
                   <span className='discount'>{productItems.discount}% Off</span>
@@ -67,7 +70,7 @@ const FlashCard = ({ productItems, addToCart }) => {
                     {/* step : 3  
                      if hami le button ma click garryo bahne 
                     */}
-                    <button onClick={() => addToCart(productItems)}>
+                    <button onClick={() => dispatch(addToCart(productItems))}>
                       <i className='fa fa-plus'></i>
                     </button>
                   </div>

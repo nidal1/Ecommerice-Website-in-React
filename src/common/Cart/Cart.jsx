@@ -1,8 +1,13 @@
 import React from "react"
 import "./style.css"
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, removeFromCart, decreaseQty } from '../../features/cardSlice'
 
-const Cart = ({ CartItem, addToCart, decreaseQty }) => {
+
+const Cart = () => {
   // Stpe: 7   calucate total of items
+  const CartItem = useSelector((state) => state.cardItems.value)
+  const dispatch = useDispatch()
   const totalPrice = CartItem.reduce((price, item) => price + item.qty * item.price, 0)
 
   // prodcut qty total
@@ -33,7 +38,7 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
                   </div>
                   <div className='cart-items-function'>
                     <div className='removeCart'>
-                      <button className='removeCart'>
+                      <button className='removeCart' onClick={()=> dispatch(removeFromCart(item))}>
                         <i className='fa-solid fa-xmark'></i>
                       </button>
                     </div>
@@ -41,10 +46,10 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
                     product ko qty lai inc ra des garne
                     */}
                     <div className='cartControl d_flex'>
-                      <button className='incCart' onClick={() => addToCart(item)}>
+                      <button className='incCart' onClick={() => dispatch(addToCart(item))}>
                         <i className='fa-solid fa-plus'></i>
                       </button>
-                      <button className='desCart' onClick={() => decreaseQty(item)}>
+                      <button className='desCart' onClick={() => dispatch(decreaseQty(item))}>
                         <i className='fa-solid fa-minus'></i>
                       </button>
                     </div>
